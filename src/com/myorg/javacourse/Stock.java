@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
+
+
 public class Stock {
 	
 	private String symbol;
@@ -20,12 +22,23 @@ public class Stock {
 
 
 
-	
+	/**stock constructor*/
 	public Stock(String symbol, float ask, float bid, Date date) {
 		this.symbol = symbol;
 		this.ask = ask;
 		this.bid = bid;
 		this.date = date;
+	}
+	
+	/**stock copy constructor*/
+	public Stock(Stock stockToCopy)
+	{	
+		this.setSymbol(stockToCopy.getSymbol());
+		this.setAsk(stockToCopy.getAsk());
+		this.setBid(stockToCopy.getBid());
+		this.setDate(stockToCopy.getDate());
+		this.setRecommendation(stockToCopy.getRecommendation());
+		this.setStockQuantity(stockToCopy.getStockQuantity());
 	}
 	
 	public String getSymbol() {
@@ -46,24 +59,14 @@ public class Stock {
 	public void setBid(float bid) {
 		this.bid = bid;
 	}
-	public java.util.Date getDate() {
+	public Date getDate() {
 		return date;
 	}
 	public void setDate(java.util.Date date) {
 		this.date = date;
 	}
 	
-	public String getHtmlDescription(){
-		
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		String date = df.format(getDate());
-		
-		String stockDetails = new String ("<b>symbol</b>: "+getSymbol()+ " <b>ask</b>: "+getAsk()+" <b>bid</b>: "+getBid()+" <b>date</b>: "+date);
-		 
-		return stockDetails;
-		
-	}
-
+	
 	public int getRecommendation() {
 		return recommendation;
 	}
@@ -79,23 +82,19 @@ public class Stock {
 	public void setStockQuantity(int stockQuantity) {
 		this.stockQuantity = stockQuantity;
 	}
-
-	public static int getBuy() {
-		return BUY;
-	}
-
-	public static int getSell() {
-		return SELL;
-	}
-
-	public static int getRemove() {
-		return REMOVE;
-	}
-
-	public static int getHold() {
-		return HOLD;
-	}
 	
+	/**string of stock details*/
+	public String getHtmlDescription(){
+		
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		String date = df.format(getDate());
+		
+		String stockDetails = new String ("<b>symbol</b>: "+getSymbol()+ " <b>ask</b>: "+getAsk()+" <b>bid</b>: "+getBid()+" <b>date</b>: "+date);
+		 
+		return stockDetails;
+		
+	}
+
 
 
 }

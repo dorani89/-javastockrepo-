@@ -8,30 +8,30 @@ import com.myorg.javacourse.model.Portfolio;
 
 public class PortfolioManager {
 	
+	/**create portfolio with stocks*/
+	
 	public Portfolio getPortfolio() {
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(2014, 11, 15);
 		
 		Portfolio portfolio = new Portfolio();
 		
-		Calendar cal = Calendar.getInstance();
-		cal.set(2014,10,15);
-		
-		
-		Date date1 = cal.getTime();
-		Stock stock1 = new Stock("PIH", (float)13.1,(float)12.4, date1);
-		
-		Date date2 = cal.getTime();
-		Stock stock2 = new Stock("ALL", (float) 5.78, (float) 5.5, date2);
-		
-		Date date3 = cal.getTime();
-		Stock stock3 = new Stock("CAAS",(float) 32.2,(float) 31.5, date3);
+		Stock st1 = new Stock("PIH", 13.1f, 12.4f, cal.getTime());
+		Stock st2 = new Stock("ALL", 5.78f, 5.5f, cal.getTime());
+		Stock st3 = new Stock("CAAS", 32.2f, 31.5f, cal.getTime());
 		
 		portfolio.setTitle("Portfolio 1");
-		portfolio.addStock(stock1);	
-		portfolio.addStock(stock2);	
-		portfolio.addStock(stock3);
-	
-		return portfolio;
+		portfolio.addStock(st1);
+		portfolio.addStock(st2);
+		portfolio.addStock(st3);
 		
+
+		return portfolio;	
+
 	}
+	
+
+	
 
 }

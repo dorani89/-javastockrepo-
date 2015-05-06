@@ -18,7 +18,7 @@ public class StockDetailsServlet extends HttpServlet {
 		resp.setContentType("text/html");
 		
 		Calendar cal = Calendar.getInstance();
-		cal.set(2014,10,15);
+		cal.set(2014,11,15);
 		
 		
 		// stock #1
