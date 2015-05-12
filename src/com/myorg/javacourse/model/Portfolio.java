@@ -1,32 +1,27 @@
 package com.myorg.javacourse.model;
 
 
-import com.myorg.javacourse.Stock;
-
-
-/** build new portfolio instance*/
+/** build new portfolio instance */
 
 public class Portfolio {
-	
+
 	private String title;
-	@SuppressWarnings("unused")
+
 	private final static int MAX_PORTFOLIO_SIZE = 5;
 	private Stock[] stocks;
 	private int portfolioSize = 0;
-	
-	/**portfolio constructor*/
-	public Portfolio()
-	{
+	private float balance;
+
+	/** portfolio constructor */
+	public Portfolio() {
 		stocks = new Stock[MAX_PORTFOLIO_SIZE];
 	}
-	
-	/**copy constructor*/
-	public Portfolio(Portfolio portfolioToCopy)
-	{
+
+	/** copy constructor */
+	public Portfolio(Portfolio portfolioToCopy) {
 		this.setTitle(portfolioToCopy.getTitle());
 		this.setStocks();
-		for (int i=0; i<portfolioToCopy.getPortfolioSize(); i++)
-		{
+		for (int i = 0; i < portfolioToCopy.getPortfolioSize(); i++) {
 			Stock tmp = new Stock(portfolioToCopy.stocks[i]);
 			this.addStock(tmp);
 		}
@@ -40,63 +35,171 @@ public class Portfolio {
 		this.title = title;
 	}
 
-
 	public Stock[] getStocks() {
 		return stocks;
 	}
-	
-	public int getMaxPortfolioSize(){
+
+	public int getMaxPortfolioSize() {
 		return MAX_PORTFOLIO_SIZE;
 	}
 
 	public void setStocks() {
 		this.stocks = new Stock[getMaxPortfolioSize()];
 	}
-	
-	public int getPortfolioSize(){
-		
+
+	public int getPortfolioSize() {
+
 		return this.portfolioSize;
 	}
 	
+	public void setPortfolioSize(int portfolioSize) {
 
-	public void addStock(Stock stock){
-		
-		stocks[portfolioSize] = stock;
-		portfolioSize++;		
+		this.portfolioSize = portfolioSize;
 	}
 	
-	/**create string with stocks*/
-	public String getHtmlString(){
+	
+	/**update stock balance */
+	public void updateBalance(float amount){
 		
-        String ret = "<h1>" + title + "</h1>";
-        for (int i = 0; i < portfolioSize; i++)
-        {
-              ret = ret + stocks[i].getHtmlDescription()+ "<br/>";
-        }
-        return ret;
-        		
+		if(amount == 0){
+			System.out.println("you try to add to the balance 0 dollar");
+		}
+		else if(balance+amount >= 0){
+		balance = balance + amount;
+		}
+		else{
+			System.out.println("your balance can't be negative");
+		}
 	}
+	
+	
+	/** add stock to the array*/
+	public void addStock(Stock stock) {
+		
+		boolean exist = false;
+
+		if (portfolioSize == MAX_PORTFOLIO_SIZE) {
+			System.out.println("Can’t add new stock, portfolio can have only"
+					+ portfolioSize + "stocks");
+		}
+
+		for (int i =0; i < portfolioSize;) {
+
+			if (stocks[i].getSymbol() == stock.getSymbol())
+			{
+				exist = true;
+				i = portfolioSize;
+			}
+			else{
+				i++;
+			}
+		}
+
+		if(exist==false){
+			this.stocks[portfolioSize] = stock;
+			stock.setStockQuantity(0);
+			portfolioSize++;
+		}
+
+	}
+
+	/** create string with stocks */
+	public String getHtmlString() {
+
+		String ret = "<h1>" + title + "</h1>" + "<br/>"
+				+ "<b>Total Portfolio Value: </b>: " + getTotalValue()+"   <b>$</b>    "
+				+    "  <b>Total Stocks value: </b>: " + getStocksValue()+"   <b>$</b>    "
+				+    "  <b> Balance: </b>: " + getBalance()+"<b>$</b>"+"<br/>"+"<br/>";
+		for (int i = 0; i < getPortfolioSize(); i++) {
+			ret += "" + getStocks()[i].getHtmlDescription() + "<br/>";
+		}
+		return ret;
+
+	}
+
+	/** remove stock from portfolio */
+	public boolean removeStock(String symbolToErase) {
+		
 		
 
-	/**remove stock from portfolio*/
-	public void removeStock(String symbolToErase)
-    {
-          if (stocks[portfolioSize-1].getSymbol().equals(symbolToErase))
-          {
-                stocks[portfolioSize-1] = null;
-                portfolioSize--;
-          }
-          else
-          {
-                for (int i=0; i < portfolioSize; i++)
-                {
-                      if (this.stocks[i].getSymbol().equals(symbolToErase))
-                      {
-                            this.stocks[i] = this.stocks[portfolioSize-1];
-                            this.stocks[portfolioSize-1] = null;
-                            portfolioSize--;
-                      }
-                }
-          }
-}
+			for (int i = 0; i < getPortfolioSize(); i++) {
+				if (getStocks()[i].getSymbol().equals(symbolToErase)) {
+					if(sellStock(symbolToErase,getStocks()[i].getStockQuantity())== true){
+					getStocks()[i] = getStocks()[getPortfolioSize() - 1];
+					getStocks()[getPortfolioSize() - 1] = null;
+					setPortfolioSize(getPortfolioSize()-1);
+					return true;
+					}
+					else{
+						i++;
+					}
+				}
+			}
+				return false;
+					
+	}
+	
+	/**sell stock from portfolio */
+	public boolean sellStock(String stockToSell, int quantity) {
+
+
+		for (int i = 0; i < getPortfolioSize(); i++) {
+			if (getStocks()[i].getSymbol().equals(stockToSell)) {
+				if (quantity == -1) quantity = getStocks()[i].getStockQuantity();
+				if (getStocks()[i].getStockQuantity() < quantity) {
+					System.out.println("Not enough stocks to sell");
+					break;
+				}else{
+					float amount = getStocks()[i].getStockQuantity() * getStocks()[i].getBid();
+					updateBalance(amount);
+					getStocks()[i].setStockQuantity(getStocks()[i].getStockQuantity() - quantity);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	
+	/**buy stock */
+	public boolean buyStock(Stock stock, int quantity) {
+
+		if ((getBalance() < stock.getAsk()) || (getBalance()/stock.getAsk() < quantity)){
+			System.out.println("Not enough balance to complete purchase.");
+		}else{
+			if (quantity == -1) quantity = (int)(getBalance()/stock.getAsk());
+			for (int i=0; i<=getPortfolioSize(); i++){
+				if (i == getPortfolioSize()) addStock(stock);
+				if (getStocks()[i].getSymbol().equals(stock.getSymbol())){
+					updateBalance((quantity*stock.getAsk())*(-1));
+					getStocks()[i].setStockQuantity(getStocks()[i].getStockQuantity() + quantity);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**get the value of all stocks */
+	public float getStocksValue(){
+		
+		float ret = 0;
+		for (int i = 0; i < portfolioSize; i++){
+			
+			ret = ret + stocks[i].getBid()*stocks[i].getStockQuantity();
+		}
+		return ret;
+		
+	}
+	/**get the current balance */
+	public float getBalance(){
+		return balance;
+	}
+	
+	/**get the value of the balance and the stocks value */
+	public float getTotalValue(){
+		
+		float ret = getBalance()+ getStocksValue();
+		return ret;
+	}
 }

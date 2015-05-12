@@ -1,4 +1,4 @@
-package com.myorg.javacourse;
+package com.myorg.javacourse.model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,21 +13,34 @@ public class Stock {
 	private float ask;
 	private float bid;
 	private Date date;
-	private int recommendation;
+	private ALGO_RECOMMENDATION recommendation;
 	private int stockQuantity;
-	private final static int BUY = 0;
-	private final static int SELL = 1;
-	private final static int REMOVE = 2;
-	private final static int HOLD = 3;
+	
+
+	
+	
+	public enum ALGO_RECOMMENDATION{
+		
+		BUY(0), SELL(1), REMOVE(2), HOLD(3);
+		private int value;
+		
+		private ALGO_RECOMMENDATION(int value){
+			
+			this.value = value;			
+		}
+		
+	}
+	
 
 
 
 	/**stock constructor*/
-	public Stock(String symbol, float ask, float bid, Date date) {
+	public Stock(String symbol, float ask, float bid, Date date,int stockQuantity) {
 		this.symbol = symbol;
 		this.ask = ask;
 		this.bid = bid;
 		this.date = date;
+		this.stockQuantity = stockQuantity;
 	}
 	
 	/**stock copy constructor*/
@@ -40,6 +53,8 @@ public class Stock {
 		this.setRecommendation(stockToCopy.getRecommendation());
 		this.setStockQuantity(stockToCopy.getStockQuantity());
 	}
+	
+	
 	
 	public String getSymbol() {
 		return symbol;
@@ -67,11 +82,11 @@ public class Stock {
 	}
 	
 	
-	public int getRecommendation() {
+	public ALGO_RECOMMENDATION getRecommendation() {
 		return recommendation;
 	}
 
-	public void setRecommendation(int recommendation) {
+	public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
 		this.recommendation = recommendation;
 	}
 
@@ -83,18 +98,15 @@ public class Stock {
 		this.stockQuantity = stockQuantity;
 	}
 	
+	
 	/**string of stock details*/
 	public String getHtmlDescription(){
 		
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		String date = df.format(getDate());
-		
-		String stockDetails = new String ("<b>symbol</b>: "+getSymbol()+ " <b>ask</b>: "+getAsk()+" <b>bid</b>: "+getBid()+" <b>date</b>: "+date);
-		 
-		return stockDetails;
-		
+		return  "<b>Symbol: </b>" + getSymbol() +
+				", <b>Ask: </b>" + getAsk() +
+				", <b>Bid: </b>" + getBid() +
+				", <b>Quantity: </b>" + getStockQuantity() +
+				", <b>Date: </b>" + (getDate().getMonth()+1) + "/" + (getDate().getDate()) + "/" + ((getDate().getYear())+1900) + "<br>";
 	}
-
-
-
+	
 }

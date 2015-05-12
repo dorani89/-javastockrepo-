@@ -5,19 +5,12 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 
-	<servlet>
-		<servlet-name>MyNewServlet</servlet-name>
-		<servlet-class>com.myorg.javacourse.MyNewServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>MyNewServlet</servlet-name>
-		<url-pattern>/MyNewServlet</url-pattern>
-	</servlet-mapping>	
+
 	
 	
 		<servlet>
 		<servlet-name>StockDetailsServlet</servlet-name>
-		<servlet-class>com.myorg.javacourse.StockDetailsServlet</servlet-class>
+		<servlet-class>com.myorg.javacourse.servlet.StockDetailsServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>StockDetailsServlet</servlet-name>
