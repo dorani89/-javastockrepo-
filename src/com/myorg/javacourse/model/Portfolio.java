@@ -1,9 +1,11 @@
 package com.myorg.javacourse.model;
 
+import org.algo.model.PortfolioInterface;
+import org.algo.model.StockInterface;
 
 /** build new portfolio instance */
 
-public class Portfolio {
+public class Portfolio implements PortfolioInterface {
 
 	private String title;
 
@@ -26,6 +28,17 @@ public class Portfolio {
 			this.addStock(tmp);
 		}
 	}
+	
+
+
+	public Portfolio(Stock[] stockArray) {
+		// TODO Auto-generated constructor stub
+		
+		this.title = new String();
+		this.stocks = stockArray;
+		this.portfolioSize = getPortfolioSize();
+		this.balance = 0;
+	}
 
 	public String getTitle() {
 		return title;
@@ -39,7 +52,7 @@ public class Portfolio {
 		return stocks;
 	}
 
-	public int getMaxPortfolioSize() {
+	public static int getMaxPortfolioSize() {
 		return MAX_PORTFOLIO_SIZE;
 	}
 
@@ -201,5 +214,16 @@ public class Portfolio {
 		
 		float ret = getBalance()+ getStocksValue();
 		return ret;
+	}
+
+	public StockInterface findStock(String symbol) {
+		// TODO Auto-generated method stub
+		
+		for (int i = 0; i < getPortfolioSize(); i++) {
+			if (getStocks()[i].getSymbol().equals(symbol)){
+				return this.getStocks()[i];
+			}
+		}
+		return null;
 	}
 }

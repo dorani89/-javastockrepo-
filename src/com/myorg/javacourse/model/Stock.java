@@ -1,13 +1,13 @@
 package com.myorg.javacourse.model;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 
+import org.algo.model.StockInterface;
 
 
 
-public class Stock {
+public class Stock implements StockInterface {
 	
 	private String symbol;
 	private float ask;
@@ -52,6 +52,15 @@ public class Stock {
 		this.setDate(stockToCopy.getDate());
 		this.setRecommendation(stockToCopy.getRecommendation());
 		this.setStockQuantity(stockToCopy.getStockQuantity());
+	}
+	
+	public Stock() {
+		this.symbol = new String();
+		this.ask = 0;
+		this.bid = 0;
+		this.date = new Date();
+		this.recommendation = ALGO_RECOMMENDATION.HOLD;
+		this.stockQuantity = 0;
 	}
 	
 	
