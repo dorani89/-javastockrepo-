@@ -35,8 +35,12 @@ public class Portfolio implements PortfolioInterface {
 		// TODO Auto-generated constructor stub
 		
 		this.title = new String();
-		this.stocks = stockArray;
-		this.portfolioSize = getPortfolioSize();
+		this.stocks = new Stock[MAX_PORTFOLIO_SIZE];
+		
+		for (int i = 0; i < stockArray.length; i++) {
+			addStock(stockArray[i]);
+		}
+		
 		this.balance = 0;
 	}
 
