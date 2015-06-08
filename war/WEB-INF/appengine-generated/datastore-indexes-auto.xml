@@ -1,8 +1,8 @@
-<!-- Indices written at Sun, 31 May 2015 20:47:55 IDT -->
+<!-- Indices written at Sat, 6 Jun 2015 16:15:05 IDT -->
 
 <datastore-indexes>
 
-    <!-- Used 30 times in query history -->
+    <!-- Used 24 times in query history -->
     <datastore-index kind="stock" ancestor="false" source="auto">
         <property name="symbol" direction="asc"/>
         <property name="day" direction="desc"/>

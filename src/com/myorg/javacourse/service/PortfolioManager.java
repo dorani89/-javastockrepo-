@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import com.myorg.javacourse.exception.BalanceException;
 import com.myorg.javacourse.exception.PortfolioFullException;
 import com.myorg.javacourse.exception.StockAlreadyExistsException;
@@ -143,15 +144,10 @@ public class PortfolioManager implements PortfolioManagerInterface {
 			Stock stock = fromDto(stockDto);
 			
 			//first thing, add it to portfolio.
-			try {
+			
 				portfolio.addStock(stock);
-			} catch (StockAlreadyExistsException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			} catch (PortfolioFullException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}   
+			
+		  
 			//or:
 			//portfolio.addStock(stock);   
 
@@ -162,6 +158,8 @@ public class PortfolioManager implements PortfolioManagerInterface {
 		} catch (SymbolNotFoundInNasdaq e) {
 			System.out.println("Stock Not Exists: "+symbol);
 		}
+		
+		
 	}
 
 	/**
@@ -311,17 +309,15 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	 * Sell stock
 	 */
 	@Override
-	public void sellStock(String symbol, int quantity) throws PortfolioException {
+	public void sellStock(String symbol, int quantity) throws StockNotExistException{
 		Portfolio portfolio = (Portfolio) getPortfolio();
-		try {
+		try{
 			portfolio.sellStock(symbol, quantity);
-		} catch (StockNotExistException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} catch (BalanceException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+		}catch(StockNotExistException e){
+			throw e;			
 		}
+		
+		
 		flush(portfolio);
 	}
 
@@ -331,15 +327,9 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	@Override
 	public void removeStock(String symbol) { 
 		Portfolio portfolio = (Portfolio) getPortfolio();
-		try {
+		
 			portfolio.removeStock(symbol);
-		} catch (StockNotExistException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} catch (BalanceException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+	
 		flush(portfolio);
 	}
 
@@ -348,12 +338,7 @@ public class PortfolioManager implements PortfolioManagerInterface {
 	 */
 	public void updateBalance(float value) { 
 		Portfolio portfolio = (Portfolio) getPortfolio();
-		try {
 			portfolio.updateBalance(value);
-		} catch (BalanceException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
 		flush(portfolio);
 	}
 
