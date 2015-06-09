@@ -100,7 +100,7 @@ public class Stock implements StockInterface {
 	}
 
 	public int getStockQuantity() {
-		return stockQuantity;
+		return this.stockQuantity;
 	}
 
 	public void setStockQuantity(int stockQuantity) {

@@ -1,6 +1,8 @@
 package com.myorg.javacourse.exception;
 
-public class StockNotExistException extends Exception {
+import org.algo.exception.PortfolioException;
+
+public class StockNotExistException extends PortfolioException {
 	
 	/**
 	 * 

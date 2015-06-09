@@ -1,6 +1,8 @@
 package com.myorg.javacourse.exception;
 
-public class PortfolioFullException extends Exception {
+import org.algo.exception.PortfolioException;
+
+public class PortfolioFullException extends PortfolioException {
 	
 	/**
 	 * 

@@ -1,6 +1,8 @@
 package com.myorg.javacourse.exception;
 
-public class StockAlreadyExistsException extends Exception {
+import org.algo.exception.PortfolioException;
+
+public class StockAlreadyExistsException extends PortfolioException {
 	
 	/**
 	 * 
@@ -9,7 +11,7 @@ public class StockAlreadyExistsException extends Exception {
 
 	public StockAlreadyExistsException(String symbol){
 		
-		super("You try to add The stock"+symbol+" that she is already exist");
+		super("You try to add The stock  " +symbol+  " that she is already exist");
 	}
 
 }
